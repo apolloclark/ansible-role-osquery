@@ -1,0 +1,42 @@
+---
+  
+# http://docs.ansible.com/ansible/latest/apt_key_module.html
+- name: Add repository key
+  apt_key:
+    keyserver: "keyserver.ubuntu.com"
+    id: "1484120AC4E9F8A1A577AEEE97A80C63C9D8B80B"
+    state: present
+
+# http://docs.ansible.com/ansible/latest/apt_repository_module.html
+- name: Add Server repository
+  apt_repository:
+    repo: 'deb [arch=amd64] https://osquery-packages.s3.amazonaws.com/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main'
+    state: present
+
+- name: Update apt cache
+  apt: update_cache=yes
+
+- name: Ensure packages are installed.
+  apt:
+    name: osquery
+    state: installed
+
+# http://docs.ansible.com/ansible/latest/template_module.html
+- name: Copy config file
+  template:
+    src: "osquery.conf.j2"
+    dest: "{{ osquery_config_include_dir }}/osquery.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart osquery
+
+# http://docs.ansible.com/ansible/latest/template_module.html
+- name: Copy config file
+  template:
+    src: "sysctl.conf.j2"
+    dest: "/etc/sysctl.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart osquery
