@@ -16,3 +16,9 @@ galaxy_info:
       - all
   galaxy_tags:
     - monitoring
+    - metrics
+    - logging
+    - security
+    - devopssec
+    - facebook
+    - osquery
