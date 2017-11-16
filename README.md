@@ -9,15 +9,16 @@ None.
 
 ## Role Variables
 
-Available variables are listed below, along with default values (see `defaults/main.yml`):
+Available variables are listed below, along with default values (see `defaults/main.yml`).
+You can overload these values by creating an dictionary called "osquery".
 
 Set the osquery deamon name.
     
-    osquery_deamon: "osqueryd"
+    daemon: "osqueryd"
 
 Set the location of the config directory.
 
-    osquery_config_include_dir: "/etc/osquery"
+    config_include_dir: "/etc/osquery"
 
 Configure the plugin type. [doc](http://osquery.readthedocs.io/en/latest/development/config-plugins/)
 
