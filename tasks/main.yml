@@ -30,7 +30,7 @@
 - name: Copy config file
   template:
     src: "osquery.conf.json"
-    dest: "{{ osquery.config_include_dir }}/osquery.conf"
+    dest: "{{ osquery_combined.config_include_dir }}/osquery.conf"
     owner: root
     group: root
     mode: 0644
