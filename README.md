@@ -1,4 +1,4 @@
-# Ansible Role: os	query
+# Ansible Role: osquery
 
 Ansible Role to install and configure osquery for Ubuntu.
 

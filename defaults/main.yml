@@ -2,6 +2,7 @@
 # https://osquery.readthedocs.io/en/stable/deployment/configuration/
 osquery_defaults:
   daemon: "osqueryd"
+  version: "latest"
   config_include_dir: "/etc/osquery"
   config_plugin: "filesystem"
   logger_plugin: "filesystem"

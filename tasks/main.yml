@@ -21,10 +21,19 @@
 - name: Update apt cache
   apt: update_cache=yes
 
-- name: Ensure packages are installed.
+# http://docs.ansible.com/ansible/latest/apt_module.html
+- name: Ensure specific version of packages is installed.
   apt:
-    name: osquery
+    name: "osquery={{ osquery_combined.version}}"
     state: installed
+  when: "osquery_combined.version != 'latest'"
+
+# http://docs.ansible.com/ansible/latest/apt_module.html
+- name: Ensure latest version of packages is installed.
+  apt:
+    name: "osquery"
+    state: installed
+  when: "osquery_combined.version == 'latest'"
 
 # http://docs.ansible.com/ansible/latest/template_module.html
 - name: Copy config file
@@ -45,3 +54,15 @@
     group: root
     mode: 0644
   notify: restart osquery
+
+# http://docs.ansible.com/ansible/latest/service_module.html
+- name: Make sure osquery autostarts
+  service:
+    name: "{{ osquery_combined.daemon }}"
+    enabled: yes
+
+- name: Restart osquery
+  service:
+    name: "{{ osquery_combined.daemon }}"
+    state: restarted
+    sleep: 15
