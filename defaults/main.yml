@@ -1,5 +1,10 @@
 ---
 # https://osquery.readthedocs.io/en/stable/deployment/configuration/
+
+# Overload variables using the dict named "osquery"
+osquery:
+  version: "latest"
+  
 osquery_defaults:
   daemon: "osqueryd"
   version: "latest"
