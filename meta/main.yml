@@ -2,6 +2,7 @@
 dependencies: []
 
 galaxy_info:
+  role_name: osquery
   author: apolloclark
   description: Install and configure osquery
   company: "Apollo Clark"
