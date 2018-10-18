@@ -25,14 +25,14 @@
 - name: Ensure specific version of packages is installed.
   apt:
     name: "osquery={{ osquery_combined.version}}"
-    state: installed
+    state: present
   when: "osquery_combined.version != 'latest'"
 
 # http://docs.ansible.com/ansible/latest/apt_module.html
 - name: Ensure latest version of packages is installed.
   apt:
     name: "osquery"
-    state: installed
+    state: present
   when: "osquery_combined.version == 'latest'"
 
 # http://docs.ansible.com/ansible/latest/template_module.html
