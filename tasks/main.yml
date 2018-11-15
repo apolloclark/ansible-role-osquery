@@ -5,6 +5,16 @@
   set_fact:
     osquery_combined: "{{ osquery_defaults | combine(osquery, recursive=True) }}"
 
+# https://docs.ansible.com/ansible/latest/modules/command_module.html
+- name: Get the platform (i386 or amd64) of the virtual machine
+  command: dpkg --print-architecture
+  register: print_architecture
+
+# https://docs.ansible.com/ansible/latest/modules/set_fact_module.html
+- name: Set the actual platform value as a variable
+  set_fact:
+    platform: "{{ print_architecture.stdout }}"
+
 # http://docs.ansible.com/ansible/latest/apt_key_module.html
 - name: Add repository key
   apt_key:
@@ -15,7 +25,7 @@
 # http://docs.ansible.com/ansible/latest/apt_repository_module.html
 - name: Add Server repository
   apt_repository:
-    repo: 'deb [arch=amd64] https://osquery-packages.s3.amazonaws.com/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main'
+    repo: 'deb [arch=amd64] https://pkg.osquery.io/deb deb main'
     state: present
 
 - name: Update apt cache
