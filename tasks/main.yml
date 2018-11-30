@@ -15,11 +15,17 @@
   set_fact:
     platform: "{{ print_architecture.stdout }}"
 
+- name: Get repository key
+  get_url:
+    url: 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x97A80C63C9D8B80B'
+    dest: /tmp/0x97A80C63C9D8B80B
+  environment: "{{proxy_env if proxy_env is defined else {}}}"
+
 # http://docs.ansible.com/ansible/latest/apt_key_module.html
 - name: Add repository key
   apt_key:
-    keyserver: "keyserver.ubuntu.com"
-    id: "1484120AC4E9F8A1A577AEEE97A80C63C9D8B80B"
+    file: /tmp/0x97A80C63C9D8B80B
+    id: "0x97a80c63c9d8b80b"
     state: present
 
 # http://docs.ansible.com/ansible/latest/apt_repository_module.html
@@ -27,9 +33,11 @@
   apt_repository:
     repo: 'deb [arch=amd64] https://pkg.osquery.io/deb deb main'
     state: present
+  environment: "{{proxy_env if proxy_env is defined else {}}}"
 
 - name: Update apt cache
   apt: update_cache=yes
+  environment: "{{proxy_env if proxy_env is defined else {}}}"
 
 # http://docs.ansible.com/ansible/latest/apt_module.html
 - name: Ensure specific version of packages is installed.
@@ -37,6 +45,7 @@
     name: "osquery={{ osquery_combined.version}}"
     state: present
   when: "osquery_combined.version != 'latest'"
+  environment: "{{proxy_env if proxy_env is defined else {}}}"
 
 # http://docs.ansible.com/ansible/latest/apt_module.html
 - name: Ensure latest version of packages is installed.
@@ -44,6 +53,7 @@
     name: "osquery"
     state: present
   when: "osquery_combined.version == 'latest'"
+  environment: "{{proxy_env if proxy_env is defined else {}}}"
 
 # http://docs.ansible.com/ansible/latest/template_module.html
 - name: Copy config file
