@@ -5,45 +5,16 @@
   set_fact:
     osquery_combined: "{{ osquery_defaults | combine(osquery, recursive=True) }}"
 
-# https://docs.ansible.com/ansible/latest/modules/command_module.html
-- name: Get the platform (i386 or amd64) of the virtual machine
-  command: dpkg --print-architecture
-  register: print_architecture
+# Include OS-specific installation tasks.
+- include_tasks: setup-RedHat.yml
+  when:
+    - ansible_os_family == 'RedHat'
 
-# https://docs.ansible.com/ansible/latest/modules/set_fact_module.html
-- name: Set the actual platform value as a variable
-  set_fact:
-    platform: "{{ print_architecture.stdout }}"
+- include_tasks: setup-Debian.yml
+  when:
+    - ansible_os_family == 'Debian'
 
-# http://docs.ansible.com/ansible/latest/apt_key_module.html
-- name: Add repository key
-  apt_key:
-    keyserver: "keyserver.ubuntu.com"
-    id: "1484120AC4E9F8A1A577AEEE97A80C63C9D8B80B"
-    state: present
 
-# http://docs.ansible.com/ansible/latest/apt_repository_module.html
-- name: Add Server repository
-  apt_repository:
-    repo: 'deb [arch=amd64] https://pkg.osquery.io/deb deb main'
-    state: present
-
-- name: Update apt cache
-  apt: update_cache=yes
-
-# http://docs.ansible.com/ansible/latest/apt_module.html
-- name: Ensure specific version of packages is installed.
-  apt:
-    name: "osquery={{ osquery_combined.version}}"
-    state: present
-  when: "osquery_combined.version != 'latest'"
-
-# http://docs.ansible.com/ansible/latest/apt_module.html
-- name: Ensure latest version of packages is installed.
-  apt:
-    name: "osquery"
-    state: present
-  when: "osquery_combined.version == 'latest'"
 
 # http://docs.ansible.com/ansible/latest/template_module.html
 - name: Copy config file
@@ -70,8 +41,12 @@
   service:
     name: "{{ osquery_combined.daemon }}"
     enabled: yes
+  when:
+    - osquery_combined.enable_service
 
 - name: Restart osquery
   service:
     name: "{{ osquery_combined.daemon }}"
     state: restarted
+  when:
+    - osquery_combined.enable_service

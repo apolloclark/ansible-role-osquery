@@ -1,0 +1,28 @@
+---
+# https://osquery.readthedocs.io/en/stable/installation/install-linux/
+
+# https://docs.ansible.com/ansible/latest/modules/yum_repository_module.html
+- name: Add Server repository
+  yum_repository:
+    name: 'osquery-s3-rpm'
+    description: 'name=osquery RPM repository - x86_64'
+    baseurl: 'https://s3.amazonaws.com/osquery-packages/rpm/$basearch/'
+    gpgkey: 'https://pkg.osquery.io/rpm/GPG'
+    gpgcheck: yes
+    repo_gpgcheck: no
+    state: present
+
+# https://docs.ansible.com/ansible/latest/modules/yum_module.html
+- name: Ensure specific version of packages is installed.
+  yum:
+    state: present
+    name: "osquery-{{ osquery_combined.version}}"
+    update_cache: yes
+  when: "osquery_combined.version != 'latest'"
+
+# https://docs.ansible.com/ansible/latest/modules/yum_module.html
+- name: Ensure latest version of packages is installed.
+  yum:
+    name: "osquery"
+    state: present
+  when: "osquery_combined.version == 'latest'"

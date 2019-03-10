@@ -8,6 +8,7 @@ osquery:
 osquery_defaults:
   daemon: "osqueryd"
   version: "latest"
+  enable_service: True
   config_include_dir: "/etc/osquery"
   config_plugin: "filesystem"
   logger_plugin: "filesystem"
