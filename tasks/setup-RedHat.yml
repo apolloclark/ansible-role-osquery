@@ -25,4 +25,5 @@
   yum:
     name: "osquery"
     state: present
+    update_cache: yes
   when: "osquery_combined.version == 'latest'"
