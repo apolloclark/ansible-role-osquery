@@ -87,12 +87,11 @@
   // make install: {PREFIX}/share/osquery/packs
   //
   "packs": {
-    "osquery-monitoring": "/usr/share/osquery/packs/osquery-monitoring.conf",
     "incident-response": "/usr/share/osquery/packs/incident-response.conf",
     "it-compliance": "/usr/share/osquery/packs/it-compliance.conf",
-    "osx-attacks": "/usr/share/osquery/packs/osx-attacks.conf",
-    "vuln-management": "/usr/share/osquery/packs/vuln-management.conf",
-    "hardware-monitoring": "/usr/share/osquery/packs/hardware-monitoring.conf"
+    "osquery-monitoring": "/usr/share/osquery/packs/osquery-monitoring.conf",
+    "ossec-rootkit": "/usr/share/osquery/packs/ossec-rootkit.conf",
+    "vuln-management": "/usr/share/osquery/packs/vuln-management.conf"
   },
   
   // httpw://osquery.readthedocs.io/en/stable/deployment/configuration/#file-paths
