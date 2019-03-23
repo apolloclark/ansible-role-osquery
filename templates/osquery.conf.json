@@ -38,16 +38,16 @@
 
     // Enable debug or verbose debug output when logging.
     "verbose": "{{ osquery_combined.verbose }}",
-    
+
     // Maximum file read size
     "read_max": {{ osquery_combined.read_max }},
-    
+
     // Maximum number of events per type to buffer
     "events_max": {{ osquery_combined.events_max }},
-    
+
     // Enable the schedule monitor
     "enable_monitor": {{ osquery_combined.enable_monitor }},
-    
+
     // Field used to identify the host running osquery (hostname, uuid)
     "host_identifier": "{{ osquery_combined.host_identifier }}"
   },
@@ -93,7 +93,7 @@
     "ossec-rootkit": "/usr/share/osquery/packs/ossec-rootkit.conf",
     "vuln-management": "/usr/share/osquery/packs/vuln-management.conf"
   },
-  
+
   // httpw://osquery.readthedocs.io/en/stable/deployment/configuration/#file-paths
   "file_paths": {
     "homes": [
