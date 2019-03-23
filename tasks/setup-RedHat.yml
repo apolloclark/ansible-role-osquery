@@ -16,7 +16,7 @@
 - name: Ensure specific version of packages is installed.
   yum:
     state: present
-    name: "osquery-{{ osquery_combined.version}}"
+    name: "osquery-{{ osquery_combined.version }}"
     update_cache: yes
   when: "osquery_combined.version != 'latest'"
 
